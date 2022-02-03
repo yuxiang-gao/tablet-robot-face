@@ -7,7 +7,21 @@
 </head>
 
 <body>
-  <div class="buttons">
+  <div id="statusIndicator">
+    <p id="connecting">
+      Connecting to rosbridge...
+    </p>
+    <p id="connected" style="color:#00D600; display:none">
+      Connected
+    </p>
+    <p id="error" style="color:#FF0000; display:none">
+      Error in the backend!
+    </p>
+    <p id="closed" style="display:none">
+      Connection closed.
+    </p>
+  </div>
+  <!-- <div class="buttons">
     <button onclick="eyes.startBlinking()">Start Blinking</button>
     <button onclick="eyes.stopBlinking()">Stop Blinking</button>
     <button onclick="eyes.blink()" >Blink</button>
@@ -17,7 +31,7 @@
     <button onclick="eyes.express({type: 'focused'})" >Focused</button>
     <button onclick="eyes.express({type: 'confused'})" >Confused</button>
 
-  </div>
+  </div> -->
   <div class="face">
     <div class="eye left">
       <div class="eyelid upper"></div>
@@ -28,6 +42,8 @@
       <div class="eyelid lower"></div>
     </div>
   </div>
-
-  <script  src="index.js"></script>
+  <script type="text/javascript"
+      src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+  <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+  <script type="module" src="index.js"></script>
 </body>
