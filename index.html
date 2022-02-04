@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 
 <head>
   <title>Expressive Robot Face for Tablet</title>
   <link rel="stylesheet" href="style.css">
+  <script type="text/javascript"
+    src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+  <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+  <script type="module" src="./index.js"></script>
+  <!-- <script type="module">
+    import {eyes} from "./index.js"
+
+  </script> -->
 </head>
 
 <body>
@@ -21,29 +29,33 @@
       Connection closed.
     </p>
   </div>
-  <!-- <div class="buttons">
+  <div class="buttons">
     <button onclick="eyes.startBlinking()">Start Blinking</button>
     <button onclick="eyes.stopBlinking()">Stop Blinking</button>
-    <button onclick="eyes.blink()" >Blink</button>
-    <button onclick="eyes.express({type: 'happy'})" >Happy</button>
-    <button onclick="eyes.express({type: 'sad'})" >Sad</button>
-    <button onclick="eyes.express({type: 'angry'})" >Mad</button>
-    <button onclick="eyes.express({type: 'focused'})" >Focused</button>
-    <button onclick="eyes.express({type: 'confused'})" >Confused</button>
+    <button onclick="eyes.blink()">Blink</button>
+    <button onclick="eyes.startTalking()">Start Talking</button>
+    <button onclick="eyes.stopTalking()">Stop Talking</button>
+    <button onclick="eyes.express({type: 'happy'})">Happy</button>
+    <button onclick="eyes.express({type: 'sad'})">Sad</button>
+    <button onclick="eyes.express({type: 'angry'})">Mad</button>
+    <button onclick="eyes.express({type: 'focused'})">Focused</button>
+    <button onclick="eyes.express({type: 'confused'})">Confused</button>
+    <button onclick="eyes.gaze({direction: 45})">Gaze</button>
+    <button onclick="eyes.stopGaze()">Stop Gaze</button>
 
-  </div> -->
+  </div>
   <div class="face">
     <div class="eye left">
+      <div class="iris"></div>
       <div class="eyelid upper"></div>
       <div class="eyelid lower"></div>
     </div>
     <div class="eye right">
+      <div class="iris"></div>
       <div class="eyelid upper"></div>
       <div class="eyelid lower"></div>
     </div>
+    <div class="mouth"></div>
   </div>
-  <script type="text/javascript"
-      src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
-  <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
-  <script type="module" src="index.js"></script>
+
 </body>

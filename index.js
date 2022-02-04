@@ -1,4 +1,6 @@
-import eyes from "./eye-controller.js";
+import { eyes } from "./eye-controller.js";
+// expose eyes
+window.eyes = eyes;
 var ros = new ROSLIB.Ros({
   url: "ws://192.168.0.186:9090",
 });
@@ -29,7 +31,7 @@ ros.on("close", function () {
 
 var listener = new ROSLIB.Topic({
   ros: ros,
-  name: "/face",
+  name: "/robot_face/express",
   messageType: "std_msgs/String",
 });
 
@@ -42,3 +44,22 @@ listener.subscribe(function (message) {
 
   eyes.startBlinking();
 });
+
+var gaze = new ROSLIB.Service({
+  ros: ros,
+  name: "/robot_face/gaze",
+  serviceType: "std_srvs/SetBool",
+  // isAdvertised: true
+})
+
+gaze.advertise(function (req, resp) {
+  console.log("Gaze srvice: " + req.data);
+  if (req.data) {
+    eyes.gaze();
+  }
+  else {
+    eyes.stopGaze();
+  }
+  resp.success = true;
+  return true
+})

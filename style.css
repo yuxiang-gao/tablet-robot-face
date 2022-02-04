@@ -5,6 +5,10 @@
   --eye-size: 33.33vmin;
   --eye-color: black;
   --eyelid-color: whitesmoke;
+  --iris-ratio: 0.3;
+  --iris-color: white;
+  --mouth-size: 20vw;
+  --mouth-color: black;
 }
 
 body {
@@ -30,6 +34,14 @@ body {
   position: absolute;
 }
 
+.mouth {
+  background-color: var(--mouth-color);
+  height: calc(var(--mouth-size)/3);
+  width: var(--mouth-size);
+  bottom: 0%;
+  left: calc(50vw - var(--mouth-size) / 2)
+}
+
 .eye {
   background-color: var(--eye-color);
   border-radius: 100%;
@@ -38,6 +50,15 @@ body {
   bottom: calc(var(--eye-size) / 3);
   z-index: 1;
   transform: rotateX(0);
+}
+
+.iris {
+  background-color: var(--iris-color);
+  border-radius: 100%;
+  height: calc(var(--eye-size) * var(--iris-ratio));
+  width: calc(var(--eye-size) * var(--iris-ratio));
+  bottom: calc(50% - var(--eye-size) * var(--iris-ratio) / 2);
+  left: calc(50% - var(--eye-size) * var(--iris-ratio) / 2);
 }
 
 .eye.left {

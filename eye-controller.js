@@ -1,7 +1,14 @@
+function deg2rad(degrees)
+{
+  var pi = Math.PI;
+  return degrees * (pi/180);
+}
 class EyeController {
   constructor(elements = {}, eyeSize = "33.33vmin") {
     this._eyeSize = eyeSize;
+    this._irisRatio = 0.3;
     this._blinkTimeoutID = null;
+    this._talkTimeoutID = null;
 
     this.setElements(elements);
 
@@ -18,17 +25,23 @@ class EyeController {
   setElements({
     leftEye,
     rightEye,
+    leftIris,
+    rightIris,
     upperLeftEyelid,
     upperRightEyelid,
     lowerLeftEyelid,
     lowerRightEyelid,
+    mouth
   } = {}) {
     this._leftEye = leftEye;
     this._rightEye = rightEye;
+    this._leftIris = leftIris;
+    this._rightIris = rightIris;
     this._upperLeftEyelid = upperLeftEyelid;
     this._upperRightEyelid = upperRightEyelid;
     this._lowerLeftEyelid = lowerLeftEyelid;
     this._lowerRightEyelid = lowerRightEyelid;
+    this._mouth = mouth;
     return this;
   }
 
@@ -212,6 +225,9 @@ class EyeController {
         }
       );
     });
+    // [this._leftIris, this._rightIris].map((iris) => {
+    //   iris.animate()
+    // })
   }
 
   startBlinking({ maxInterval = 5000 } = {}) {
@@ -235,33 +251,124 @@ class EyeController {
     this._blinkTimeoutID = null;
   }
 
-  setEyePosition(eyeElem, x, y, isRight = false) {
-    if (!eyeElem) {
+  talk({
+    duration = 150, // in ms
+  } = {}) {
+    if (!this._mouth) {
       // assumes all elements are always set together
-      console.warn("Invalid inputs ", eyeElem, x, y, "; retuning");
+      console.warn("Mouth elements are not set; return;");
       return;
     }
 
-    if (!!x) {
-      if (!isRight) {
-        eyeElem.style.left = `calc(${this._eyeSize} / 3 * 2 * ${x})`;
-      } else {
-        eyeElem.style.right = `calc(${this._eyeSize} / 3 * 2 * ${1 - x})`;
-      }
-    }
-    if (!!y) {
-      eyeElem.style.bottom = `calc(${this._eyeSize} / 3 * 2 * ${1 - y})`;
-    }
+    [this._mouth].map((el) => {
+      el.animate(
+        [
+          { transform: "rotateX(0deg)" },
+          { transform: "rotateX(90deg)" },
+          { transform: "rotateX(0deg)" },
+        ],
+        {
+          duration,
+          iterations: 1,
+        }
+      );
+    });
+    // [this._leftIris, this._rightIris].map((iris) => {
+    //   iris.animate()
+    // })
   }
+
+  startTalking({ maxInterval = 500 } = {}) {
+    if (this._talkTimeoutID) {
+      console.warn(
+        `Already talking with timeoutID=${this._talkTimeoutID}; return;`
+      );
+      return;
+    }
+    const talkRandomly = (timeout) => {
+      this._talkTimeoutID = setTimeout(() => {
+        this.talk();
+        talkRandomly(Math.random() * maxInterval);
+      }, timeout);
+    };
+    talkRandomly(Math.random() * maxInterval);
+  }
+
+  stopTalking() {
+    clearTimeout(this._talkTimeoutID);
+    this._talkTimeoutID = null;
+  }
+
+  stopGaze ({ duration = 500, // in ms
+  } = {}) {
+    [this._leftIris, this._rightIris].map((el) => {
+      el.animate(
+        [
+          { transform: "translate(0, 0)" },
+          // { transform: "translateX(0)" },
+        ],
+        {
+          duration,
+          fill: 'forwards',
+          // easing: 'steps(10, end)',
+          iterations: 1,
+        }
+      );
+       
+    });
+  }
+  gaze ({ duration = 800, // in ms
+    direction = 0 } = {}) {
+    var dir = deg2rad(direction)
+    console.log(Math.cos( dir), Math.sin(dir));
+     [this._leftIris, this._rightIris].map((el) => {
+      el.animate(
+        [
+          { transform: "translate(0, 0)" },
+          { transform: "translate(-90%, 30%)" },
+          // { transform: "translateX(0)" },
+        ],
+        {
+          duration,
+          fill: 'forwards',
+          // easing: 'steps(10, end)',
+          iterations: 1,
+        }
+      );
+       
+    });
+  }
+
+  // setEyePosition(eyeElem, x, y, isRight = false) {
+  //   if (!eyeElem) {
+  //     // assumes all elements are always set together
+  //     console.warn("Invalid inputs ", eyeElem, x, y, "; retuning");
+  //     return;
+  //   }
+
+  //   if (!!x) {
+  //     if (!isRight) {
+  //       eyeElem.style.left = `calc(${this._eyeSize} / 3 * 2 * ${x})`;
+  //     } else {
+  //       eyeElem.style.right = `calc(${this._eyeSize} / 3 * 2 * ${1 - x})`;
+  //     }
+  //   }
+  //   if (!!y) {
+  //     eyeElem.style.bottom = `calc(${this._eyeSize} / 3 * 2 * ${1 - y})`;
+  //   }
+  // }
 }
 
-const eyes = new EyeController({
+export const eyes = new EyeController({
   leftEye: document.querySelector(".left.eye"),
   rightEye: document.querySelector(".right.eye"),
+  leftIris: document.querySelector(".left .iris"),
+  rightIris: document.querySelector(".right .iris"),
   upperLeftEyelid: document.querySelector(".left .eyelid.upper"),
   upperRightEyelid: document.querySelector(".right .eyelid.upper"),
   lowerLeftEyelid: document.querySelector(".left .eyelid.lower"),
   lowerRightEyelid: document.querySelector(".right .eyelid.lower"),
+  mouth: document.querySelector(".mouth"),
 });
 
-export default eyes;
+// export default eyes;
