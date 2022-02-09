@@ -318,7 +318,7 @@ class EyeController {
       );
        
     });
-    this._face.animate([{ transform: "rotateY(0deg)" }], {
+    this._face.animate([{ transform: "rotateX(0deg) rotateY(0deg)" }], {
       duration, fill: 'forwards', iterations: 1
     });
   }
@@ -343,7 +343,11 @@ class EyeController {
       );
        
      });
-    this._face.animate([{ transform: "rotateY(45deg)" }], {
+    this._face.animate(
+      [
+        { transform: "rotateY(45deg) rotateX(10deg)" },
+        // { transform: "rotateX(-30deg)" }
+      ], {
       duration, fill: 'forwards', iterations: 1
     });
     // this.express({ type: "focused", duration: duration });
