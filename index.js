@@ -55,10 +55,29 @@ var gaze = new ROSLIB.Service({
 gaze.advertise(function (req, resp) {
   console.log("Gaze srvice: " + req.data);
   if (req.data) {
+    eyes.express({ type: "focused", duration: 2500 })
     eyes.gaze();
   }
   else {
     eyes.stopGaze();
+  }
+  resp.success = true;
+  return true
+})
+
+var talk = new ROSLIB.Service({
+  ros: ros,
+  name: "/robot_face/talk",
+  serviceType: "std_srvs/SetBool",
+  // isAdvertised: true
+})
+talk.advertise(function (req, resp) {
+  console.log("Talk srvice: " + req.data);
+  if (req.data) {
+    eyes.startTalking();
+  }
+  else {
+    eyes.stopTalking();
   }
   resp.success = true;
   return true

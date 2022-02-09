@@ -22,7 +22,8 @@ class EyeController {
     return this._rightEye;
   }
 
-  setElements({
+  setElements ({
+    face,
     leftEye,
     rightEye,
     leftIris,
@@ -33,6 +34,7 @@ class EyeController {
     lowerRightEyelid,
     mouth
   } = {}) {
+    this._face = face;
     this._leftEye = leftEye;
     this._rightEye = rightEye;
     this._leftIris = leftIris;
@@ -316,11 +318,15 @@ class EyeController {
       );
        
     });
+    this._face.animate([{ transform: "rotateY(0deg)" }], {
+      duration, fill: 'forwards', iterations: 1
+    });
   }
   gaze ({ duration = 800, // in ms
     direction = 0 } = {}) {
-    var dir = deg2rad(direction)
-    console.log(Math.cos( dir), Math.sin(dir));
+    // var dir = deg2rad(direction)
+    // console.log(Math.cos( dir), Math.sin(dir));
+   
      [this._leftIris, this._rightIris].map((el) => {
       el.animate(
         [
@@ -336,7 +342,11 @@ class EyeController {
         }
       );
        
+     });
+    this._face.animate([{ transform: "rotateY(45deg)" }], {
+      duration, fill: 'forwards', iterations: 1
     });
+    // this.express({ type: "focused", duration: duration });
   }
 
   // setEyePosition(eyeElem, x, y, isRight = false) {
@@ -360,6 +370,7 @@ class EyeController {
 }
 
 export const eyes = new EyeController({
+  face: document.querySelector(".face"),
   leftEye: document.querySelector(".left.eye"),
   rightEye: document.querySelector(".right.eye"),
   leftIris: document.querySelector(".left .iris"),
