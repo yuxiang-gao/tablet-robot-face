@@ -4,6 +4,7 @@ import threading
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from time import sleep
 
 from selenium import webdriver
 
@@ -26,11 +27,15 @@ server_thread.start()
 
 # start browser
 driver = webdriver.Firefox()
+
+sleep(5)
 driver.fullscreen_window()
+sleep(1)
 driver.get(f"http://0.0.0.0:{PORT}")
+sleep(1)
 driver.execute_script(
     "var scrollingElement = (document.scrollingElement || document.body);scrollingElement.scrollTop = scrollingElement.scrollHeight;"
 )
-
+driver.fullscreen_window()
 server_thread.join()
 driver.quit()
