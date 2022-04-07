@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="eyes.css">
+
+</head>
+
+<body>
+
+
+    <div class="face">
+        <div class="container left">
+            <div class="eyeBall">
+                <div class="iris"></div>
+            </div>
+            <div class="eyeLid"></div>
+            <div class="lid"></div>
+        </div>
+        <div class="container right">
+            <div class="eyeBall">
+                <div class="iris"></div>
+            </div>
+            <div class="eyeLid"></div>
+            <div class="lid"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    const eye = document.querySelector('.right .iris');
+    window.addEventListener('mousemove', (event) => {
+        const x = -(window.innerWidth / 2 - event.pageX) / 35;
+        const y = -(window.innerHeight / 2 - event.pageY) / 35;
+        eye.style.transform = `rotate(-45deg) translateY(${y}px) translateX(${x}px)`;
+    }); 
+</script>
